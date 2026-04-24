@@ -83,6 +83,10 @@ pub fn run(self: *Self) !void {
 fn close(self: *Self, listener: *std.net.Server) void {
     if (self.is_closed.cmpxchgStrong(false, true, .acq_rel, .acquire) == null) {
         logger.debug("beginning cancellation", .{});
+
+        // Shutdown the listener's socket before closing it;
+        // otherwise, on Linux, the server will hang indefinitely.
+        std.posix.shutdown(listener.stream.handle, .recv) catch {};
         listener.deinit();
 
         logger.debug("stopping all connections", .{});
