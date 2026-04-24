@@ -118,7 +118,7 @@ jobs:
           version: 0.15.1
 
       - name: Build binary
-        run: zig build -Dtarget=${{ matrix.target }} -Doptimize=ReleaseSafe
+        run: zig build -Dtarget=${{ matrix.target }} -Drelease=true
 
       - name: Copy extra files for inclusion into archive
         run: cp .schema.json config.example.json README.md UNLICENSE zig-out/bin/
