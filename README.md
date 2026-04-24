@@ -15,6 +15,15 @@ To overcome this problem, I have come up with a somewhat complex but robust solu
 - in the `bgpd` configuration, `next_hop_ipv{4,6}` options point to a gateway that is hosted by another ISP, which does not suffer from this routing problem;
 - my home router sets up BGP peering with `bgpd`, picks up the summarized routes and inserts them into its RIB, guaranteeing that any home devices will route the traffic to an alternative gateway, thus avoiding the suboptimal path.
 
+## Disclaimer
+
+This project is my first semi-serious foray in Zig, and some of its chosen approaches may be very questionable.
+
+Notably, TCP server backed by a ThreadPool has its own fair share of disadvantages, and the BGP FSM is pretty barebones,
+but, as with most of my personal projects, it has been deemed "good enough" for my wild and wacky use cases.
+
+I should also consider migrating the project to Zig 0.16 someday; never got around to that.
+
 ## Usage
 
 1. Download the [latest release](https://github.com/ds8088/bgpd/releases/latest);
