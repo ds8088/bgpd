@@ -1,0 +1,17 @@
+*
+!.editorconfig
+!.gitignore
+!.schema.json
+!config.example.json
+!Dockerfile
+!build.zig
+!build.zig.zon
+!README.md
+!UNLICENSE
+
+!src
+!src/**/*.zig
+
+!.github
+!.github/workflows
+!.github/workflows/*.yml

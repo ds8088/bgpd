@@ -1,0 +1,14 @@
+.{
+    .name = .bgpd,
+    .version = "0.1.0",
+    .dependencies = .{},
+    .minimum_zig_version = "0.15.1",
+    .paths = .{
+        "build.zig",
+        "src",
+        ".schema.json",
+        "README.MD",
+        "UNLICENSE",
+    },
+    .fingerprint = 0x9813e18635e1f600,
+}

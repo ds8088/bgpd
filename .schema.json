@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/ds8088/bgpd/.schema.json",
+  "title": "bgpd configuration",
+  "type": "object",
+  "required": ["fetch"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path to the JSON schema."
+    },
+    "debug": {
+      "description": "Enable debug logging.",
+      "type": "boolean",
+      "default": false
+    },
+    "bgp": {
+      "$ref": "#/$defs/bgp"
+    },
+    "fetch": {
+      "$ref": "#/$defs/fetch"
+    },
+    "summarization": {
+      "$ref": "#/$defs/summarization"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "bgp": {
+      "description": "BGP server settings.",
+      "type": "object",
+      "properties": {
+        "local_as": {
+          "description": "Local BGP AS number.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "default": 0
+        },
+        "router_id": {
+          "description": "Local BGP router ID.",
+          "type": "string",
+          "format": "ipv4",
+          "default": "1.2.3.4"
+        },
+        "listen_addr": {
+          "description": "Address to listen on for incoming BGP connections.",
+          "type": "string",
+          "default": "0.0.0.0"
+        },
+        "listen_port": {
+          "description": "TCP port to listen on for incoming BGP connections.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "default": 179
+        },
+        "hold_time_sec": {
+          "description": "BGP hold time in seconds.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535,
+          "default": 90
+        },
+        "keepalive_sec": {
+          "description": "BGP keepalive interval in seconds.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535,
+          "default": 30
+        },
+        "write_timeout_sec": {
+          "description": "Timeout in seconds for writing to a remote BGP peer.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535,
+          "default": 5
+        },
+        "announce_ipv4": {
+          "description": "Whether to announce IPv4 prefixes over BGP.",
+          "type": "boolean",
+          "default": true
+        },
+        "next_hop_ipv4": {
+          "description": "IPv4 next-hop address to advertise. If null, uses the loopback IPv4 address.",
+          "oneOf": [{ "type": "string", "format": "ipv4" }, { "type": "null" }],
+          "default": null
+        },
+        "announce_ipv6": {
+          "description": "Whether to announce IPv6 prefixes over BGP.",
+          "type": "boolean",
+          "default": true
+        },
+        "next_hop_ipv6": {
+          "description": "IPv6 next-hop address to advertise. If null, uses the loopback IPv6 address.",
+          "oneOf": [{ "type": "string", "format": "ipv6" }, { "type": "null" }],
+          "default": null
+        }
+      },
+      "additionalProperties": false
+    },
+    "fetch": {
+      "description": "Fetcher settings.",
+      "type": "object",
+      "required": ["as"],
+      "properties": {
+        "as": {
+          "description": "List of ASNs whose prefix lists should be fetched.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4294967295
+          },
+          "minItems": 1
+        },
+        "interval_sec": {
+          "description": "How often to re-fetch prefix lists, in seconds.",
+          "type": "integer",
+          "minimum": 60,
+          "default": 14400
+        },
+        "retry_min_delay_ms": {
+          "description": "Minimum delay between fetch retries, in milliseconds.",
+          "type": "integer",
+          "minimum": 0,
+          "default": 1000
+        },
+        "retry_max_delay_ms": {
+          "description": "Maximum delay between fetch retries, in milliseconds.",
+          "type": "integer",
+          "minimum": 0,
+          "default": 60000
+        },
+        "retry_multiplier": {
+          "description": "Backoff multiplier applied to the retry delay after each failed attempt.",
+          "type": "number",
+          "default": 2.0
+        },
+        "retry_max_count": {
+          "description": "Maximum number of fetch retries before giving up.",
+          "type": "integer",
+          "minimum": 0,
+          "default": 10
+        }
+      },
+      "additionalProperties": false
+    },
+    "summarization": {
+      "description": "Summarization settings.",
+      "type": "object",
+      "properties": {
+        "ipv4_max_prefix_len": {
+          "description": "IPv4 prefixes longer than this are rounded up to this length. Set to 0 to disable.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32,
+          "default": 0
+        },
+        "ipv6_max_prefix_len": {
+          "description": "IPv6 prefixes longer than this are rounded up to this length. Set to 0 to disable.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 128,
+          "default": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

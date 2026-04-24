@@ -1,0 +1,27 @@
+{
+  "$schema": "./.schema.json",
+  "debug": false,
+  "bgp": {
+    "local_as": 65001,
+    "router_id": "192.168.0.2",
+    "listen_addr": "0.0.0.0",
+    "listen_port": 179,
+    "hold_time_sec": 180,
+    "keepalive_sec": 60,
+    "next_hop_ipv4": "192.168.0.2",
+    "next_hop_ipv6": "fd00::2",
+    "announce_ipv4": true,
+    "announce_ipv6": true
+  },
+  "fetch": {
+    "as": [13238],
+    "interval_sec": 14400,
+    "retry_min_delay_ms": 1000,
+    "retry_max_delay_ms": 60000,
+    "retry_multiplier": 2.0
+  },
+  "summarization": {
+    "ipv4_max_prefix_len": 22,
+    "ipv6_max_prefix_len": 44
+  }
+}
